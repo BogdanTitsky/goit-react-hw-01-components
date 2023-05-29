@@ -1,28 +1,23 @@
-import css from './FriendList.module.css';
+import React from 'react';
 import PropTypes from 'prop-types';
+import { FriendListItem } from '../FriendListItem/FriendListItem';
+
 import styled from 'styled-components';
 
-const Status = styled.span`
-  display: block;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: ${props => (props.isOnline ? 'green' : 'red')};
+const ListContainer = styled.ul`
+  margin: 0 auto;
+  width: 300px;
+  padding: 0;
+  margin-bottom: 50px;
 `;
 
 export const FriendList = ({ friends }) => {
   return (
-    <ul className={css.friendList}>
-      {friends.map(({ id, name, avatar, isOnline }) => {
-        return (
-          <li className={css.item} key={id}>
-            <Status isOnline={isOnline} />
-            <img className={css.avatar} src={avatar} alt="user" width="48" />
-            <p className={css.name}>{name}</p>
-          </li>
-        );
-      })}
-    </ul>
+    <ListContainer>
+      {friends.map(friend => (
+        <FriendListItem key={friend.id} {...friend} />
+      ))}
+    </ListContainer>
   );
 };
 
@@ -30,9 +25,6 @@ FriendList.propTypes = {
   friends: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-      avatar: PropTypes.string.isRequired,
-      isOnline: PropTypes.bool.isRequired,
     })
   ).isRequired,
 };
